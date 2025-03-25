@@ -3,8 +3,6 @@ import app.models as models
 import app.schemas as schemas
 from passlib.context import CryptContext
 ### CRUD para Cliente ###
-
-
     # Crear un cliente
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -28,12 +26,11 @@ def create_cliente(db: Session, cliente: schemas.ClienteCreate):
 def verificar_user(db: Session, email: str, password: str):
     db_cliente = db.query(models.Cliente).filter(models.Cliente.email == email).first()
     if not db_cliente:
-        return None  # Cliente no encontrado
+        return None
         # Verificar la contraseña
     if not pwd_context.verify(password, db_cliente.password):
-        return None  # Contraseña incorrecta
+        return None
     return db_cliente
-    # Obtener un cliente por id
 
 def get_cliente(db: Session, cliente_id: int):
     return db.query(models.Cliente).filter(models.Cliente.id == cliente_id).first()
@@ -52,6 +49,9 @@ def get_clientes(db: Session):
 
 def update_cliente(db: Session, cliente_id: int, cliente: schemas.ClienteUpdate):
     db_cliente = db.query(models.Cliente).filter(models.Cliente.id == cliente_id).first()
+    if not db_cliente:
+        raise ValueError("Cliente no encontrado.")
+
     db_cliente.nombre = cliente.nombre
     db_cliente.email = cliente.email
     db.commit()

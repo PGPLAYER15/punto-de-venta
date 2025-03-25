@@ -25,7 +25,7 @@ export const StyledWrapper = styled.div`
 
   .form input[type="email"],
   .form input[type="password"],
-  .form input[type="user"] {
+  .form input[type="text"] {
     border-radius: 0.5rem;
     padding: 1rem 0.75rem;
     width: 100%;

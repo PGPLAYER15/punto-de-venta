@@ -12,32 +12,28 @@ export const useCliente = () => {
     const [error , setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handlecrearCliente = async (nombre,email,password) => {
+    const handlecrearCliente = async (nombre, email, password) => {
 
-        if (!nombre.trim()) {
-            setError('El nombre del cliente es obligatorio.');
-            return;
-        }
         setIsLoading(true);
         setError(null);
 
-        try{
-
-            const response = await crearCliente(nombre, email,password);
-            if(response){
-                console.log('Cliente creado')
-            }else{
-                console.log('el correo ya esta registrado:');
+    
+        try {
+            const response = await crearCliente(nombre, email, password);
+            if (response) {
+                console.log('Cliente creado', response);
+                return response;
+            } else {
+                return null;
             }
-
-        }catch(error){
+        } catch (error) {
             setError('Error al crear el cliente. Por favor, inténtalo de nuevo.');
             console.error(error);
-        }finally{
+            return null;
+        } finally {
             setIsLoading(false);
         }
-
-    }
+    };
 
     const handleUpdateUser = async(id, nombre,email,tarjeta) => {
 

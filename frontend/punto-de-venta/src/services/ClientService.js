@@ -1,32 +1,41 @@
 import axios from 'axios';
-
 const API_URL = 'http://127.0.0.1:8000';
 
 // Crear un cliente
 
-export const crearCliente = async (nombre, email,password) => {
-    try {
-        const responsemail = await axios.get(`${API_URL}/clientes/email/${email}`);
 
-        if (responsemail.data) {
-            console.log('Ese correo ya está registrado');
-            return null; // Cliente ya existe
+export const crearCliente = async (nombre, email, password) => {
+    console.log(email)
+    try {
+        console.log(email)
+        const responseemail = await axios.get(`${API_URL}/clientes/email/${email}`);
+        if (responseemail.data) {
+            console.log('El correo ya está registrado');
+            return null;
         }
-        
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            // Si el cliente no existe, proceder a crearlo
-            const response = await axios.post(`${API_URL}/clientes`, {
-                nombre: nombre,
-                email: email,
-                password: password
-            });
-            return response.data;
+            console.log("El correo no está registrado, continuando con el registro...");
+        } else {
+            console.error("Error al verificar el correo:", error);
+            return null;
         }
-        console.error('Error al verificar el cliente:', error);
-        throw error;
     }
-}
+    
+    try {
+        console.log(email)
+        const response = await axios.post(`${API_URL}/clientes/create`, {
+            nombre:nombre,
+            email:email,
+            password:password
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error al crear el cliente:", error);
+        return null;
+    }
+};
 
 export const updateCliente = async (id, nombre, email, tarjeta) => {
 
@@ -44,23 +53,15 @@ export const updateCliente = async (id, nombre, email, tarjeta) => {
 }
 
 export const loginCliente = async (email, password) => {
-
     try {
-
-        const response = await axios.get(`${API_URL}/login/`,{
-            email: email,
-            password: password
+        const response = await axios.post(`${API_URL}/login/`, {
+            email,
+            password
         });
 
-        if(password == response.data.password){
-            console.log('Cliente logueado:', response.data);
-        }
-        
-        return console.log('Contraseña incorrecta');
-        
+        return response.data;
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         throw error;
     }
-    
-}
+};

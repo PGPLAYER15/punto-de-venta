@@ -16,7 +16,7 @@ def get_db():
 
 ### REGISTRO DE CLIENTES ###
 
-@router.post("/clientes/", response_model=schemas.Cliente)
+@router.post("/clientes/create", response_model=schemas.Cliente)
 def create_cliente(cliente: schemas.ClienteCreate, db: Session = Depends(get_db)):
     try:
         return crud.create_cliente(db=db, cliente=cliente)
@@ -36,17 +36,17 @@ def read_cliente(cliente_id: int, db: Session = Depends(get_db)):
     return db_cliente
 
 @router.get("/clientes/email/{email}", response_model=schemas.Cliente)
-def get_cliente_by_email(email: str, password:str, db: Session = Depends(get_db)):
-    db_cliente = crud.get_cliente_by_email(db, email=email, password=password)
+def get_cliente_by_email(email: str, db: Session = Depends(get_db)):
+    db_cliente = crud.get_cliente_by_email(db, email=email)
     if not db_cliente:
         raise HTTPException(status_code=404, detail="Cliente no encontrado")
     return db_cliente
 
 ### LOGIN DE CLIENTES ###
 
-@router.put("/login/}", response_model=schemas.Cliente)
+@router.post("/login/", response_model=schemas.Cliente)
 def login(email: str, password: str, db: Session = Depends(get_db)):
-    cliente = crud.verificar_credenciales(db, email, password)
+    cliente = crud.verificar_user(db, email, password)
     if not cliente:
         raise HTTPException(status_code=401, detail="Credenciales incorrectas")
     return {"message": "Login exitoso", "cliente_id": cliente.id}
