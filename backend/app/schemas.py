@@ -1,10 +1,14 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class ClienteBase(BaseModel):
     nombre: str
     email: str
 
 class ClienteCreate(ClienteBase):
+    password: str
+
+class ClienteUpdate(ClienteBase):
     pass
 
 class Cliente(ClienteBase):
@@ -27,6 +31,9 @@ class Producto(ProductoBase):
     class Config:
         orm_mode = True
 
+class ProductoUpdate(ProductoBase):
+    pass
+
 class CarritoBase(BaseModel):
     cliente_id: int
     producto_id: int
@@ -41,6 +48,9 @@ class Carrito(CarritoBase):
     class Config:
         orm_mode = True
 
+class CarritoUpdate(CarritoBase):
+    pass
+
 class TarjetaBase(BaseModel):
     cliente_id: int
     numero: str
@@ -53,3 +63,6 @@ class Tarjeta(TarjetaBase):
 
     class Config:
         orm_mode = True
+        
+class TarjetaUpdate(TarjetaBase):
+    pass

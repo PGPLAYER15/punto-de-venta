@@ -7,6 +7,7 @@ class Cliente(Base):
     id = Column(Integer, primary_key=True, index=True)
     nombre = Column(String, index=True)
     email = Column(String, unique=True, index=True)
+    password = Column(String , index=True)
     tarjetas = relationship("Tarjeta", back_populates="cliente")
 
 class Producto(Base):

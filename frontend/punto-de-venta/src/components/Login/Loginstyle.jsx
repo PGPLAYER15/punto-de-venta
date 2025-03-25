@@ -14,11 +14,13 @@ export const StyledWrapper = styled.div`
     max-width: 300px;
   }
 
-  .form .input-span {
+  .form .input-span{
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 0.5rem;
+    
   }
 
   .form input[type="email"],
@@ -36,7 +38,7 @@ export const StyledWrapper = styled.div`
   }
 
   .form input[type="email"]:focus,
-  .form input[type="password"]:focus
+  .form input[type="password"]:focus,
   .form input[type="user"]:focus {
     outline: 2px solid var(--clr);
   }
@@ -61,6 +63,7 @@ export const StyledWrapper = styled.div`
     transition: all 300ms;
     font-weight: 600;
     font-size: 0.9rem;
+    justify-content: center;
   }
 
   .form .submit:hover {
